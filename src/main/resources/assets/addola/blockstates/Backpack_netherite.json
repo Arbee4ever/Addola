@@ -1,0 +1,41 @@
+{
+
+    "variants": 
+    
+    {   
+	
+        "facing=south":
+        
+        {
+        
+        	"model": "addola:block/backpack_netherite"
+            
+        },
+        
+        "facing=west":
+        
+        {
+        
+        	"model": "addola:block/backpack_netherite", "y":90
+            
+        },
+        
+        "facing=north":
+        
+        {
+        
+        	"model": "addola:block/backpack_netherite", "y":180
+            
+        },
+        
+        "facing=east":
+        
+        {
+        
+        	"model": "addola:block/backpack_netherite", "y":270
+            
+        }
+        
+    }
+    
+}

@@ -1,0 +1,9 @@
+{
+    "replace": false,
+    "values": [
+        "addola:backpack_iron",
+        "addola:backpack_gold",
+        "addola:backpack_diamond",
+        "addola:backpack_netherite"
+    ]
+}

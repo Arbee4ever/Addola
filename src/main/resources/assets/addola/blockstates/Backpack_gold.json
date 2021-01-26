@@ -1,0 +1,41 @@
+{
+
+    "variants": 
+    
+    {   
+	
+        "facing=south":
+        
+        {
+        
+        	"model": "addola:block/backpack_gold"
+            
+        },
+        
+        "facing=west":
+        
+        {
+        
+        	"model": "addola:block/backpack_gold", "y":90
+            
+        },
+        
+        "facing=north":
+        
+        {
+        
+        	"model": "addola:block/backpack_gold", "y":180
+            
+        },
+        
+        "facing=east":
+        
+        {
+        
+        	"model": "addola:block/backpack_gold", "y":270
+            
+        }
+        
+    }
+    
+}

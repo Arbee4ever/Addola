@@ -1,0 +1,11 @@
+{
+	"block.addola.backpack_iron": "Eisen Rucksack",
+	"block.addola.backpack_gold": "Gold Rucksack",
+	"block.addola.backpack_diamond": "Diamant Rucksack",
+	"block.addola.backpack_netherite": "Netherit Rucksack",
+	"container.backpack.more": "und %s mehr...",
+	"itemGroup.addola.general": "Addola",
+	"options.addola.general": "Generell",
+	"option.addola.settingsbutton": "Zeige Addola Einstellungsknopf",
+	"option.addola.villagersfollow":  "Dorfbewohner folgen Spielern welche Emerald Blöcke/Erz halten"
+}

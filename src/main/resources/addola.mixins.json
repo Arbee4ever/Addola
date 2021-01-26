@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "net.arbee.addola.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [],
+  "client": [
+	"TitleScreenMixin",
+	"GameMenuMixin",
+	"VillagerMixin",
+	"CapeMixin",
+	"ElytraFeatureRendererMixin",
+    "BerryMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

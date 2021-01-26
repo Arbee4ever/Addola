@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "addola",
+  "version": "0.0.1-BETA",
+  "name": "Addola",
+  "description": "A mod that adds vanilla like features to improve your minecraft experience.",
+  "authors": [
+    "Arbee"
+  ],
+  "contributors": [],
+  "contact": {
+    "homepage": "www.google.com",
+    "sources": "www.google.com"
+  },
+  "license": "MIT",
+  "icon": "assets/addola/icon.png",
+  "environment": "*",
+  "entrypoints": {
+	"main": [
+	  "net.arbee.addola.Reference"
+	],
+	"client": [
+	  "net.arbee.addola.ReferenceClient"
+	],
+	"modmenu": [ 
+	  "net.arbee.addola.util.modmenu.ModMenuSupport"
+	],
+	"server": []
+  },
+  "mixins": [
+    "addola.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.10.8",
+    "fabric": "*"
+  }
+}

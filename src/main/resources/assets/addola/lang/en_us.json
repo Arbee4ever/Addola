@@ -1,0 +1,13 @@
+{
+	"block.addola.backpack_iron": "Iron Backpack",
+	"block.addola.backpack_gold": "Gold Backpack",
+	"block.addola.backpack_diamond": "Diamond Backpack",
+	"block.addola.backpack_netherite": "Netherite Backpack",
+	"container.backpack.more": "and %s more...",
+	"itemGroup.addola.general": "Addola",
+	"options.addola.general": "General",
+	"option.addola.settingsbutton": "Show Addola Settings Button",
+	"option.addola.villagersfollow":  "Villagers follow Players holding Emerald Blocks/Ore",
+	"option.addola.sneakberrybush": "Sneaking through Berry Bushes doesn't deal damage to Players.",
+	"option.addola.sneakmagmablock": "Sneaking over Magma Blocks doesn't deal damage to Players."
+}
