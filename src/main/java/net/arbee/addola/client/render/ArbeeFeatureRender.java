@@ -33,8 +33,8 @@ public class ArbeeFeatureRender extends FeatureRenderer<AbstractClientPlayerEnti
 		Identifier identifier4;
 		if ("guendahr".equals(abstractClientPlayerEntity.getName().getString()) && !abstractClientPlayerEntity.isInvisible() && abstractClientPlayerEntity.isPartVisible(PlayerModelPart.CAPE)) {
 			ItemStack itemStack = abstractClientPlayerEntity.getEquippedStack(EquipmentSlot.CHEST);
-	         if (itemStack.getItem() != Items.ELYTRA) {
-	            matrixStack.push();
+			if (itemStack.getItem() != Items.ELYTRA) {
+				matrixStack.push();
 	            matrixStack.translate(0.0D, 0.0D, 0.125D);
 	            double d = MathHelper.lerp((double)h, abstractClientPlayerEntity.prevCapeX, abstractClientPlayerEntity.capeX) - MathHelper.lerp((double)h, abstractClientPlayerEntity.prevX, abstractClientPlayerEntity.getX());
 	            double e = MathHelper.lerp((double)h, abstractClientPlayerEntity.prevCapeY, abstractClientPlayerEntity.capeY) - MathHelper.lerp((double)h, abstractClientPlayerEntity.prevY, abstractClientPlayerEntity.getY());
@@ -65,7 +65,7 @@ public class ArbeeFeatureRender extends FeatureRenderer<AbstractClientPlayerEnti
 				VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumerProvider, RenderLayer.getArmorCutoutNoCull(identifier4), false, itemStack.hasGlint());
 				((PlayerEntityModel)this.getContextModel()).renderCape(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV);
 	            matrixStack.pop();
-	         }
+			}
 		}
 	}
 }

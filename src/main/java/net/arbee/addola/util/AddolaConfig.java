@@ -9,4 +9,8 @@ public class AddolaConfig {
 	public boolean villagersFollow = true;
 	@Comment("Whether Sneaking through Berry Bushes does Damage.")
 	public boolean sneakBerryBush = true;
+	@Comment("Amount of healing when a players sleeps.")
+	public int healOnSleepAmount = 20;
+	@Comment("Whether sleeping will cure Potion effects.")
+	public boolean cureOnSleep = true;
 }

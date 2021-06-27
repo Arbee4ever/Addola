@@ -1,5 +1,6 @@
 package net.arbee.addola.mixins;
 
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -22,12 +23,12 @@ public abstract class TitleScreenMixin extends Screen {
 		super(title);
 	}
 
-	@Inject (at = @At("HEAD"), method = "init()V")	
+	@Inject (at = @At("HEAD"), method = "init()V")
 	private void init(CallbackInfo info) {
 		if(ReferenceClient.config.settingsButtonOn)
 		{
-			this.addButton(new TexturedButtonWidget(this.width - 21, 13, 20, 20, 0, 0, 20, new Identifier("addola:textures/gui/vasettings.png"), 32, 64, (buttonWidgetx) -> {
-		         this.client.openScreen(new configscreen(new configgui(null)));
+			this.addButton(new TexturedButtonWidget(this.width - 21, 13, 20, 20, 0, 0, 20, new Identifier("addola:textures/gui/addolasettings.png"), 32, 64, (buttonWidget) -> {
+		         client.openScreen(new configscreen(new configgui(this.client.currentScreen)));
 		    }));
 		}
 	}

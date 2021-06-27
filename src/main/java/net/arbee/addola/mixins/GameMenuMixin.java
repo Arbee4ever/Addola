@@ -26,7 +26,7 @@ public abstract class GameMenuMixin extends Screen {
 	private void initWidgets(CallbackInfo info) {
 		if(ReferenceClient.config.settingsButtonOn == true)
 		{
-			this.addButton(new TexturedButtonWidget(this.width - 21, 13, 20, 20, 0, 0, 20, new Identifier("addola:textures/gui/vasettings.png"), 32, 64, (buttonWidgetx) -> {
+			this.addButton(new TexturedButtonWidget(this.width - 21, 13, 20, 20, 0, 0, 20, new Identifier("addola:textures/gui/addolasettings.png"), 32, 64, (buttonWidgetx) -> {
 		         this.client.openScreen(new configscreen(new configgui(null)));
 		    }));
 		}

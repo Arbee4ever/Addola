@@ -26,7 +26,7 @@ public abstract class VillagerMixin extends MerchantEntity {
 		if(ReferenceClient.config.villagersFollow == true)
 		{
 			this.goalSelector.add(2, new TemptGoal(this, .4D, false, Ingredient.ofItems(Items.EMERALD_BLOCK, Items.EMERALD_ORE)));
-			this.goalSelector.add(2, new TemptGoal(this, .2D, false, Ingredient.ofItems(Items.EMERALD)));
+			this.goalSelector.add(2, new TemptGoal(this, .2D, true, Ingredient.ofItems(Items.EMERALD)));
 		}
 	}
 }
