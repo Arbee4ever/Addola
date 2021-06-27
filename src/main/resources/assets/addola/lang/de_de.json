@@ -7,5 +7,7 @@
 	"itemGroup.addola.general": "Addola",
 	"options.addola.general": "Generell",
 	"option.addola.settingsbutton": "Zeige Addola Einstellungsknopf",
-	"option.addola.villagersfollow":  "Dorfbewohner folgen Spielern welche Emerald Blöcke/Erz halten"
+	"option.addola.villagersfollow":  "Dorfbewohner folgen Spielern welche Emerald Blöcke/Erz halten.",
+	"option.addola.sneakberrybush": "Durch Beerenbüsche schleichen macht dem Spieler keinen Schaden.",
+	"option.addola.cureeffects": "In einem Bett schlafen heilt alle Effekte eines Spielers."
 }

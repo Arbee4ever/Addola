@@ -45,8 +45,6 @@ dependencies {
 	modImplementation ("net.fabricmc:fabric-loader:${project.loader_version}") { exclude module: 'fabric-api' }
 	
 	modImplementation ("io.github.prospector:modmenu:${project.modmenu_version}") { exclude module: 'fabric-api' }
-	
-	modImplementation include("top.theillusivec4.curios:curios-fabric:${project.curios_version}") { exclude module: 'fabric-api' }
  
 	modImplementation include("io.github.cottonmc:LibGui:3.3.2+1.16.4") { exclude module: 'fabric-api' }
 	

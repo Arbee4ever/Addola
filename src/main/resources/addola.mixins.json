@@ -4,12 +4,14 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [],
   "client": [
-	"TitleScreenMixin",
-	"GameMenuMixin",
 	"VillagerMixin",
 	"CapeMixin",
 	"ElytraFeatureRendererMixin",
-    "BerryMixin"
+    "PlayerEntityMixin",
+    "TitleScreenMixin",
+    "BerryMixin",
+    "GameMenuMixin",
+    "PlayerEntityModelMixin"
   ],
   "server": [],
   "injectors": {

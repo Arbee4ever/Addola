@@ -1,5 +1,6 @@
 package net.arbee.addola.mixins;
 
+import net.arbee.addola.client.render.ArbeeCrownFeatureRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,5 +31,6 @@ public abstract class CapeMixin extends LivingEntityRenderer {
 	public void init(EntityRenderDispatcher dispatcher, boolean b, CallbackInfo ci) {
 	    this.addFeature(new ArbeeFeatureRender(this));
 	    this.addFeature(new ArbeeElytraFeatureRenderer(this));
+	    this.addFeature(new ArbeeCrownFeatureRenderer(this));
     }
 }
