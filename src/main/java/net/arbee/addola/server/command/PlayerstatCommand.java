@@ -31,7 +31,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount", IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeSetHunger((ServerCommandSource)commandContext.getSource(),
+                                                    return executeSetHunger(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -40,7 +40,7 @@ public class PlayerstatCommand {
                             .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                     .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                             .executes((commandContext) -> {
-                                                return executeAddHunger((ServerCommandSource)commandContext.getSource(),
+                                                return executeAddHunger(commandContext.getSource(),
                                                         EntityArgumentType.getPlayers(commandContext, "targets"),
                                                         IntegerArgumentType.getInteger(commandContext, "amount"));
                                             })))))
@@ -49,7 +49,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeRemoveHunger((ServerCommandSource)commandContext.getSource(),
+                                                    return executeRemoveHunger(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -58,7 +58,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount", IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeSetHealth((ServerCommandSource)commandContext.getSource(),
+                                                    return executeSetHealth(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -67,7 +67,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeAddHealth((ServerCommandSource)commandContext.getSource(),
+                                                    return executeAddHealth(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -76,7 +76,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeRemoveHealth((ServerCommandSource)commandContext.getSource(),
+                                                    return executeRemoveHealth(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -85,7 +85,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount", IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeSetSaturation((ServerCommandSource)commandContext.getSource(),
+                                                    return executeSetSaturation(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -94,7 +94,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeAddSaturation((ServerCommandSource)commandContext.getSource(),
+                                                    return executeAddSaturation(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -103,7 +103,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeRemoveSaturation((ServerCommandSource)commandContext.getSource(),
+                                                    return executeRemoveSaturation(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -119,9 +119,9 @@ public class PlayerstatCommand {
             throw HUNGER_SET_FAILED_EXCEPTION.create();
         } else {
             if (targets.size() == 1) {
-                source.sendFeedback(new TranslatableText("commands.hunger.set.success.single", new Object[]{targets.iterator().next().getDisplayName(), amount}), true);
+                source.sendFeedback(new TranslatableText("commands.hunger.set.success.single", targets.iterator().next().getDisplayName(), amount), true);
             } else {
-                source.sendFeedback(new TranslatableText("commands.hunger.set.success.multiple", new Object[]{targets.size(), amount}), true);
+                source.sendFeedback(new TranslatableText("commands.hunger.set.success.multiple", targets.size(), amount), true);
             }
         }
 
@@ -137,9 +137,9 @@ public class PlayerstatCommand {
             throw HUNGER_ADD_FAILED_EXCEPTION.create();
         } else {
             if (targets.size() == 1) {
-                source.sendFeedback(new TranslatableText("commands.hunger.add.success.single", new Object[]{amount, targets.iterator().next().getDisplayName()}), true);
+                source.sendFeedback(new TranslatableText("commands.hunger.add.success.single", amount, targets.iterator().next().getDisplayName()), true);
             } else {
-                source.sendFeedback(new TranslatableText("commands.hunger.add.success.multiple", new Object[]{amount, targets.size()}), true);
+                source.sendFeedback(new TranslatableText("commands.hunger.add.success.multiple", amount, targets.size()), true);
             }
         }
 
@@ -155,9 +155,9 @@ public class PlayerstatCommand {
             throw HUNGER_REMOVE_FAILED_EXCEPTION.create();
         } else {
             if (targets.size() == 1) {
-                source.sendFeedback(new TranslatableText("commands.hunger.remove.success.single", new Object[]{amount, targets.iterator().next().getDisplayName()}), true);
+                source.sendFeedback(new TranslatableText("commands.hunger.remove.success.single", amount, targets.iterator().next().getDisplayName()), true);
             } else {
-                source.sendFeedback(new TranslatableText("commands.hunger.remove.success.multiple", new Object[]{amount, targets.size()}), true);
+                source.sendFeedback(new TranslatableText("commands.hunger.remove.success.multiple", amount, targets.size()), true);
             }
         }
 
@@ -173,9 +173,9 @@ public class PlayerstatCommand {
             throw HEALTH_SET_FAILED_EXCEPTION.create();
         } else {
             if (targets.size() == 1) {
-                source.sendFeedback(new TranslatableText("commands.health.set.success.single", new Object[]{targets.iterator().next().getDisplayName(), amount}), true);
+                source.sendFeedback(new TranslatableText("commands.health.set.success.single", targets.iterator().next().getDisplayName(), amount), true);
             } else {
-                source.sendFeedback(new TranslatableText("commands.health.set.success.multiple", new Object[]{targets.size(), amount}), true);
+                source.sendFeedback(new TranslatableText("commands.health.set.success.multiple", targets.size(), amount), true);
             }
         }
 
@@ -191,9 +191,9 @@ public class PlayerstatCommand {
             throw HEALTH_ADD_FAILED_EXCEPTION.create();
         } else {
             if (targets.size() == 1) {
-                source.sendFeedback(new TranslatableText("commands.health.add.success.single", new Object[]{amount, targets.iterator().next().getDisplayName()}), true);
+                source.sendFeedback(new TranslatableText("commands.health.add.success.single", amount, targets.iterator().next().getDisplayName()), true);
             } else {
-                source.sendFeedback(new TranslatableText("commands.health.add.success.multiple", new Object[]{amount, targets.size()}), true);
+                source.sendFeedback(new TranslatableText("commands.health.add.success.multiple", amount, targets.size()), true);
             }
         }
 
@@ -209,9 +209,9 @@ public class PlayerstatCommand {
             throw HEALTH_REMOVE_FAILED_EXCEPTION.create();
         } else {
             if (targets.size() == 1) {
-                source.sendFeedback(new TranslatableText("commands.health.remove.success.single", new Object[]{amount, targets.iterator().next().getDisplayName()}), true);
+                source.sendFeedback(new TranslatableText("commands.health.remove.success.single", amount, targets.iterator().next().getDisplayName()), true);
             } else {
-                source.sendFeedback(new TranslatableText("commands.health.remove.success.multiple", new Object[]{amount, targets.size()}), true);
+                source.sendFeedback(new TranslatableText("commands.health.remove.success.multiple", amount, targets.size()), true);
             }
         }
 
@@ -220,16 +220,16 @@ public class PlayerstatCommand {
 
     private static int executeSetSaturation(ServerCommandSource source, Collection<ServerPlayerEntity> targets, int amount) throws CommandSyntaxException {
         for (ServerPlayerEntity player : targets) {
-            player.getHungerManager().setSaturationLevelClient(amount);
+            player.getHungerManager().setSaturationLevel(amount);
         }
 
         if (targets.size() == 0) {
             throw SATURATION_SET_FAILED_EXCEPTION.create();
         } else {
             if (targets.size() == 1) {
-                source.sendFeedback(new TranslatableText("commands.saturation.set.success.single", new Object[]{targets.iterator().next().getDisplayName(), amount}), true);
+                source.sendFeedback(new TranslatableText("commands.saturation.set.success.single", targets.iterator().next().getDisplayName(), amount), true);
             } else {
-                source.sendFeedback(new TranslatableText("commands.saturation.set.success.multiple", new Object[]{targets.size(), amount}), true);
+                source.sendFeedback(new TranslatableText("commands.saturation.set.success.multiple", targets.size(), amount), true);
             }
         }
 
@@ -238,16 +238,16 @@ public class PlayerstatCommand {
 
     private static int executeAddSaturation(ServerCommandSource source, Collection<ServerPlayerEntity> targets, int amount) throws CommandSyntaxException {
         for (ServerPlayerEntity player : targets) {
-            player.getHungerManager().setSaturationLevelClient(player.getHungerManager().getSaturationLevel() + amount);
+            player.getHungerManager().setSaturationLevel(player.getHungerManager().getSaturationLevel() + amount);
         }
 
         if (targets.size() == 0) {
             throw SATURATION_ADD_FAILED_EXCEPTION.create();
         } else {
             if (targets.size() == 1) {
-                source.sendFeedback(new TranslatableText("commands.saturation.add.success.single", new Object[]{amount, targets.iterator().next().getDisplayName()}), true);
+                source.sendFeedback(new TranslatableText("commands.saturation.add.success.single", amount, targets.iterator().next().getDisplayName()), true);
             } else {
-                source.sendFeedback(new TranslatableText("commands.saturation.add.success.multiple", new Object[]{amount, targets.size()}), true);
+                source.sendFeedback(new TranslatableText("commands.saturation.add.success.multiple", amount, targets.size()), true);
             }
         }
 
@@ -256,16 +256,16 @@ public class PlayerstatCommand {
 
     private static int executeRemoveSaturation(ServerCommandSource source, Collection<ServerPlayerEntity> targets, int amount) throws CommandSyntaxException {
         for (ServerPlayerEntity player : targets) {
-            player.getHungerManager().setSaturationLevelClient(player.getHungerManager().getSaturationLevel() - amount);
+            player.getHungerManager().setSaturationLevel(player.getHungerManager().getSaturationLevel() - amount);
         }
 
         if (targets.size() == 0) {
             throw SATURATION_REMOVE_FAILED_EXCEPTION.create();
         } else {
             if (targets.size() == 1) {
-                source.sendFeedback(new TranslatableText("commands.saturation.remove.success.single", new Object[]{amount, targets.iterator().next().getDisplayName()}), true);
+                source.sendFeedback(new TranslatableText("commands.saturation.remove.success.single", amount, targets.iterator().next().getDisplayName()), true);
             } else {
-                source.sendFeedback(new TranslatableText("commands.saturation.remove.success.multiple", new Object[]{amount, targets.size()}), true);
+                source.sendFeedback(new TranslatableText("commands.saturation.remove.success.multiple", amount, targets.size()), true);
             }
         }
 

@@ -15,9 +15,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(VillagerEntity.class)
-public abstract class VillagerMixin extends MerchantEntity {
+public abstract class VillagerEntityMixin extends MerchantEntity {
 
-	public VillagerMixin(EntityType<? extends MerchantEntity> entityType, World world) {
+	public VillagerEntityMixin(EntityType<? extends MerchantEntity> entityType, World world) {
 		super(entityType, world);
 	}
 
@@ -25,8 +25,8 @@ public abstract class VillagerMixin extends MerchantEntity {
 	private void inject(EntityType<? extends VillagerEntity> entityType, World world, VillagerType type, CallbackInfo ci) {
 		if(ReferenceClient.config.villagersFollow == true)
 		{
-			this.goalSelector.add(2, new TemptGoal(this, .4D, false, Ingredient.ofItems(Items.EMERALD_BLOCK, Items.EMERALD_ORE)));
-			this.goalSelector.add(2, new TemptGoal(this, .2D, true, Ingredient.ofItems(Items.EMERALD)));
+			this.goalSelector.add(2, new TemptGoal(this, .4D, Ingredient.ofItems(Items.EMERALD_BLOCK), false));
+			this.goalSelector.add(2, new TemptGoal(this, .2D, Ingredient.ofItems(Items.EMERALD), true));
 		}
 	}
 }

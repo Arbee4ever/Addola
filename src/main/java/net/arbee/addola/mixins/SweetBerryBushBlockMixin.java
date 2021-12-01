@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(SweetBerryBushBlock.class)
-public class BerryMixin{
+public class SweetBerryBushBlockMixin {
     @Redirect(method = "onEntityCollision", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;damage(Lnet/minecraft/entity/damage/DamageSource;F)Z"))
     public boolean collision (Entity entity, DamageSource source, float f) {
         if(entity.isInSneakingPose() && ReferenceClient.config.sneakBerryBush == true) {
