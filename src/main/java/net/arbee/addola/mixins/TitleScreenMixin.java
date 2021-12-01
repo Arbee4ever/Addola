@@ -27,8 +27,8 @@ public abstract class TitleScreenMixin extends Screen {
 	private void init(CallbackInfo info) {
 		if(ReferenceClient.config.settingsButtonOn)
 		{
-			this.addButton(new TexturedButtonWidget(this.width - 21, 13, 20, 20, 0, 0, 20, new Identifier("addola:textures/gui/addolasettings.png"), 32, 64, (buttonWidget) -> {
-		         client.openScreen(new configscreen(new configgui(this.client.currentScreen)));
+			this.addDrawableChild(new TexturedButtonWidget(this.width - 21, 13, 20, 20, 0, 0, 20, new Identifier("addola:textures/gui/addolasettings.png"), 32, 64, (buttonWidget) -> {
+		         client.setScreen(new configscreen(new configgui(this.client.currentScreen)));
 		    }));
 		}
 	}

@@ -62,7 +62,7 @@ public class configgui extends LightweightGuiDescription {
 		General.add(cureEffects, 0, 6, 20, 1);
 		
 		WButton doneButton = new WButton(new TranslatableText("gui.done"));
-		doneButton.setOnClick(()-> MinecraftClient.getInstance().openScreen(previous));
+		doneButton.setOnClick(()-> MinecraftClient.getInstance().setScreen(previous));
 		General.add(doneButton, 0, 8, 3, 1);
 		
 		General.setBackgroundPainter(BackgroundPainter.SLOT);

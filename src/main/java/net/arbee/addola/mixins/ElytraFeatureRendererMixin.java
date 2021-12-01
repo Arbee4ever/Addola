@@ -1,9 +1,6 @@
 package net.arbee.addola.mixins;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
+import net.arbee.addola.client.render.AddolaCapeFeatureRender;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
@@ -18,27 +15,35 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.util.Identifier;
-
+import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @SuppressWarnings("unused")
 @Environment(EnvType.CLIENT)
 @Mixin(ElytraFeatureRenderer.class)
 public abstract class ElytraFeatureRendererMixin<T extends LivingEntity, M extends EntityModel<T>> extends FeatureRenderer<T, M> {
-	
+	private final String[] capeowners = AddolaCapeFeatureRender.friends;
+
     public ElytraFeatureRendererMixin(FeatureRendererContext<T, M> context) {
 		super(context);
 	}
 
 	@Inject(method = "render", at = @At("HEAD"), cancellable = true)
 	public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l, CallbackInfo ci) {
-		ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
-		if (itemStack.getItem() == Items.ELYTRA) {
-			Identifier identifier4;
-			AbstractClientPlayerEntity abstractClientPlayerEntity = (AbstractClientPlayerEntity)livingEntity;
-			if("guendahr".equals(abstractClientPlayerEntity.getName().getString()) && abstractClientPlayerEntity.isPartVisible(PlayerModelPart.CAPE)) {
-				ci.cancel();
+		if (livingEntity instanceof AbstractClientPlayerEntity) {
+			ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.CHEST);
+			if (itemStack.getItem() == Items.ELYTRA) {
+				AbstractClientPlayerEntity abstractClientPlayerEntity = (AbstractClientPlayerEntity) livingEntity;
+				if ("51625729-02bb-4125-a45f-332520b04f19".equals(abstractClientPlayerEntity.getUuid().toString()) && abstractClientPlayerEntity.isPartVisible(PlayerModelPart.CAPE)) {
+					ci.cancel();
+				}
+				for (i=0; i<capeowners.length; i++) {
+					if (capeowners[i].equals(abstractClientPlayerEntity.getUuid().toString()) && abstractClientPlayerEntity.isPartVisible(PlayerModelPart.CAPE)) {
+						ci.cancel();
+					}
+				}
 			}
 		}
     }
