@@ -1,13 +1,12 @@
 package net.arbee.addola.mixins;
 
-import net.arbee.addola.ReferenceClient;
+import net.arbee.addola.Gamerules;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.passive.VillagerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.village.VillagerType;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,12 +20,14 @@ public abstract class VillagerMixin extends MerchantEntity {
 		super(entityType, world);
 	}
 
-	@Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;Lnet/minecraft/village/VillagerType;)V", at = @At(value = "TAIL"))
-	private void inject(EntityType<? extends VillagerEntity> entityType, World world, VillagerType type, CallbackInfo ci) {
-		if(ReferenceClient.config.villagersFollow == true)
-		{
-			this.goalSelector.add(2, new TemptGoal(this, .4D, false, Ingredient.ofItems(Items.EMERALD_BLOCK, Items.EMERALD_ORE)));
-			this.goalSelector.add(2, new TemptGoal(this, .2D, true, Ingredient.ofItems(Items.EMERALD)));
+	@Inject(at = @At("HEAD"), method = "mobTick")
+	protected void mobTick(CallbackInfo ci) {
+		if(getEntityWorld().getGameRules().getBoolean(Gamerules.VILLAGERS_FOLLOW)) {
+			goalSelector.add(2, new TemptGoal(this, .8D, false, Ingredient.ofItems(Items.EMERALD_BLOCK, Items.EMERALD_ORE)));
+			goalSelector.add(2, new TemptGoal(this, .4D, true, Ingredient.ofItems(Items.EMERALD)));
+		} else {
+			goalSelector.remove(new TemptGoal(this, .8D, false, Ingredient.ofItems(Items.EMERALD_BLOCK)));
+			goalSelector.remove(new TemptGoal(this, .4D, true, Ingredient.ofItems(Items.EMERALD, Items.EMERALD_ORE)));
 		}
 	}
 }

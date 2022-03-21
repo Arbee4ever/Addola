@@ -1,16 +1,4 @@
 {
-	"block.addola.backpack_iron": "Iron Backpack",
-	"block.addola.backpack_gold": "Gold Backpack",
-	"block.addola.backpack_diamond": "Diamond Backpack",
-	"block.addola.backpack_netherite": "Netherite Backpack",
-	"container.backpack.more": "and %s more...",
-	"itemGroup.addola.general": "Addola",
-	"options.addola.general": "General",
-	"option.addola.settingsbutton": "Show Addola Settings Button",
-	"option.addola.villagersfollow":  "Villagers follow Players holding Emerald Blocks/Ore",
-	"option.addola.sneakberrybush": "Sneaking through Berry Bushes doesn't deal damage to Players.",
-	"option.addola.cureeffects": "Sleeping in a Bed cures any Effects.",
-	"option.addola.healonsleep": "Sleeping in a Bed heals the player by a specific amount.",
 	"commands.health.set.success.single": "Set %s's health level to %s",
 	"commands.health.set.success.multiple": "Set the health level of %s targets to %s",
 	"commands.health.set.failed": "Failed to set Players health level",
@@ -37,5 +25,9 @@
 	"commands.saturation.add.failed": "Failed to add to Players saturation level",
 	"commands.saturation.remove.success.single": "Removed %s saturation points from %s",
 	"commands.saturation.remove.success.multiple": "Removed %s saturation points from %s targets",
-	"commands.saturation.remove.failed": "Failed to remove from Players saturation level"
+	"commands.saturation.remove.failed": "Failed to remove from Players saturation level",
+	"gamerule.berryBushSneakDamage": "Deal Berry-bush damage while sneaking",
+	"gamerule.villagersFollow":  "Villagers follow Players holding Emerald Blocks/Ore",
+	"gamerule.cureEffectsOnSleep": "Sleeping in a Bed cures any Effects.",
+	"gamerule.healOnSleep": "Sleeping in a Bed heals the player by a specific amount."
 }
