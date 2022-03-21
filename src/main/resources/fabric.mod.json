@@ -9,22 +9,17 @@
   ],
   "contributors": [],
   "contact": {
-    "homepage": "www.google.com",
-    "sources": "www.google.com"
+    "homepage": "https://www.arbee.cf",
+    "sources": "https://github.com/Arbee4ever/Addola"
   },
   "license": "MIT",
   "icon": "assets/addola/icon.png",
   "environment": "*",
   "entrypoints": {
 	"main": [
-	  "net.arbee.addola.Reference"
+	  "net.arbee.addola.Addola"
 	],
-	"client": [
-	  "net.arbee.addola.ReferenceClient"
-	],
-	"modmenu": [ 
-	  "net.arbee.addola.util.modmenu.ModMenuSupport"
-	],
+	"client": [],
 	"server": []
   },
   "mixins": [

@@ -13,28 +13,6 @@ group = project.maven_group
 minecraft {
 }
 
-repositories {
-	 maven {
-        name "jitpack"
-        url "https://jitpack.io"
-    }
-    maven {
-        name = "NerdHubMC"
-        url = "https://maven.abusedmaster.xyz/"
-    }
-    maven {
-        name = "CottonMC"
-        url = "https://server.bbkr.space/artifactory/libs-release"
-    }
-    maven {
-        url = "https://maven.theillusivec4.top/"
-    }
-    maven {
-		name = "Ladysnake Libs"
-		url = 'https://dl.bintray.com/ladysnake/libs'
-    }
-    jcenter()
-}
  
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
@@ -43,16 +21,6 @@ dependencies {
 	modImplementation ("net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}")
 	
 	modImplementation ("net.fabricmc:fabric-loader:${project.loader_version}") { exclude module: 'fabric-api' }
-	
-	modImplementation ("io.github.prospector:modmenu:${project.modmenu_version}") { exclude module: 'fabric-api' }
- 
-	modImplementation include("io.github.cottonmc:LibGui:3.3.2+1.16.4") { exclude module: 'fabric-api' }
-	
-	include "me.shedaniel.cloth:config-2:4.8.3"	
-
-	modApi("me.shedaniel.cloth:config-2:4.8.3") {
-		exclude(group: "net.fabricmc.fabric-api")
-    }
 }
  
 processResources {
