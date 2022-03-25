@@ -21,7 +21,7 @@ public abstract class VillagerMixin extends MerchantEntity {
 
 	@Inject(at = @At("HEAD"), method = "mobTick")
 	protected void mobTick(CallbackInfo ci) {
-		final Goal EmeraldBlockGoal = new EmeraldGoal(this, .8D, Ingredient.ofItems(Items.EMERALD_BLOCK), false);
+		final Goal EmeraldBlockGoal = new EmeraldGoal(this, .6D, Ingredient.ofItems(Items.EMERALD_BLOCK), false);
 		final Goal EmeraldOreItemGoal = new EmeraldGoal(this, .4D, Ingredient.ofItems(Items.EMERALD, Items.EMERALD_ORE), false);
 
 		goalSelector.add(2, EmeraldBlockGoal);

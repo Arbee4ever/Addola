@@ -31,7 +31,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount", IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeSetHunger((ServerCommandSource)commandContext.getSource(),
+                                                    return executeSetHunger(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -40,7 +40,7 @@ public class PlayerstatCommand {
                             .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                     .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                             .executes((commandContext) -> {
-                                                return executeAddHunger((ServerCommandSource)commandContext.getSource(),
+                                                return executeAddHunger(commandContext.getSource(),
                                                         EntityArgumentType.getPlayers(commandContext, "targets"),
                                                         IntegerArgumentType.getInteger(commandContext, "amount"));
                                             })))))
@@ -49,7 +49,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeRemoveHunger((ServerCommandSource)commandContext.getSource(),
+                                                    return executeRemoveHunger(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -58,7 +58,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount", IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeSetHealth((ServerCommandSource)commandContext.getSource(),
+                                                    return executeSetHealth(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -67,7 +67,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeAddHealth((ServerCommandSource)commandContext.getSource(),
+                                                    return executeAddHealth(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -76,7 +76,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeRemoveHealth((ServerCommandSource)commandContext.getSource(),
+                                                    return executeRemoveHealth(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -85,7 +85,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount", IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeSetSaturation((ServerCommandSource)commandContext.getSource(),
+                                                    return executeSetSaturation(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -94,7 +94,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeAddSaturation((ServerCommandSource)commandContext.getSource(),
+                                                    return executeAddSaturation(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
@@ -103,7 +103,7 @@ public class PlayerstatCommand {
                                 .then(CommandManager.argument("targets", EntityArgumentType.entities())
                                         .then(CommandManager.argument("amount",IntegerArgumentType.integer())
                                                 .executes((commandContext) -> {
-                                                    return executeRemoveSaturation((ServerCommandSource)commandContext.getSource(),
+                                                    return executeRemoveSaturation(commandContext.getSource(),
                                                             EntityArgumentType.getPlayers(commandContext, "targets"),
                                                             IntegerArgumentType.getInteger(commandContext, "amount"));
                                                 })))))
