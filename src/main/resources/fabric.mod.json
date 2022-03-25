@@ -19,7 +19,9 @@
 	"main": [
 	  "net.arbee.addola.Addola"
 	],
-	"client": [],
+	"client": [
+      "net.arbee.addola.AddolaClient"
+    ],
 	"server": []
   },
   "mixins": [

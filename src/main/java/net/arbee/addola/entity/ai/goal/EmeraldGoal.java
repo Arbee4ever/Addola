@@ -1,6 +1,6 @@
 package net.arbee.addola.entity.ai.goal;
 
-import net.arbee.addola.Gamerules;
+import net.arbee.addola.registries.Gamerules;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.mob.PathAwareEntity;

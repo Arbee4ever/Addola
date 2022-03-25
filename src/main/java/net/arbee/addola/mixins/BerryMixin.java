@@ -1,6 +1,6 @@
 package net.arbee.addola.mixins;
 
-import net.arbee.addola.Gamerules;
+import net.arbee.addola.registries.Gamerules;
 import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
