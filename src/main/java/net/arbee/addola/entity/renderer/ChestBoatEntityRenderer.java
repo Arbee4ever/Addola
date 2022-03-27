@@ -10,12 +10,14 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.model.BoatEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Quaternion;
 
 public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
     protected final BoatEntityModel model = new BoatEntityModel();
+    private static final Identifier[] TEXTURES = new Identifier[]{new Identifier("textures/entity/boat/oak.png"), new Identifier("textures/entity/boat/spruce.png"), new Identifier("textures/entity/boat/birch.png"), new Identifier("textures/entity/boat/jungle.png"), new Identifier("textures/entity/boat/acacia.png"), new Identifier("textures/entity/boat/dark_oak.png")};
 
     public ChestBoatEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
         super(entityRenderDispatcher);
@@ -57,7 +59,7 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
     }
 
     @Override
-    public Identifier getTexture(ChestBoatEntity entity) {
-        return new Identifier("entitys", "textures/entity/cube/cube.png");
+    public Identifier getTexture(ChestBoatEntity chestBoatEntity) {
+        return TEXTURES[chestBoatEntity.getBoatType().ordinal()];
     }
 }
