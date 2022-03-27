@@ -1,10 +1,12 @@
 package net.arbee.addola.entity.vehicle;
 
 import net.arbee.addola.mixins.BoatEntityAccess;
+import net.arbee.addola.network.SpawnChestBoatEntityPacketSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.network.Packet;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
@@ -31,5 +33,10 @@ public class ChestBoatEntity extends BoatEntity {
         } else {
             return ActionResult.PASS;
         }
+    }
+
+    @Override
+    public Packet<?> createSpawnPacket() {
+        return SpawnChestBoatEntityPacketSender.createSpawnPacket(this);
     }
 }
