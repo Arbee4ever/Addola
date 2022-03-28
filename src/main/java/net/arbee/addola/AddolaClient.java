@@ -1,11 +1,13 @@
 package net.arbee.addola;
 
+import net.arbee.addola.entity.renderer.ChestBoatEntityRenderer;
 import net.arbee.addola.entity.vehicle.ChestBoatEntity;
 import net.arbee.addola.network.SpawnChestBoatEntityPacketSender;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 
 import java.util.UUID;
 
@@ -34,5 +36,7 @@ public class AddolaClient implements ClientModInitializer {
             boat.pitch = pitch;
             client.execute(() -> client.world.addEntity(entityId, boat));
         });
+
+        EntityRendererRegistry.INSTANCE.register(Addola.CHESTBOAT, (dispatcher, context) -> new ChestBoatEntityRenderer(dispatcher));
     }
 }
