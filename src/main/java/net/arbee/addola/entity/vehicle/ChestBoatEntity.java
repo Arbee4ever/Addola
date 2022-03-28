@@ -6,37 +6,53 @@ import net.arbee.addola.network.SpawnChestBoatEntityPacketSender;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 public class ChestBoatEntity extends BoatEntity {
+    ChestBoatEntity instance = this;
     Block block;
 
     public ChestBoatEntity(World world, double x, double y, double z) {
-        super(world, x, y, z);
+        super(Addola.CHESTBOAT, world);
+        updatePosition(x, y, z);
+        setVelocity(Vec3d.ZERO);
+        prevX = x;
+        prevY = y;
+        prevZ = z;
     }
 
-    public ChestBoatEntity(EntityType<? extends ChestBoatEntity> entityType, World world) {
+    public ChestBoatEntity(EntityType<? extends BoatEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
-        ChestBoatEntity instance = this;
         if (player.shouldCancelInteraction()) {
             return ActionResult.PASS;
         } else if (((BoatEntityAccess)instance).getTicksUnderwater() < 60.0F) {
             if (!this.world.isClient) {
-                block = Block.getBlockFromItem(player.getMainHandStack().getItem());
+                /*block = Block.getBlockFromItem(player.getMainHandStack().getItem());
                 if(block.hasBlockEntity()) {
                     player.getMainHandStack().decrement(1);
+                }*/
+                if (player.isSneaking()) {
+                    new BoatEntity(this.world, this.getX(), this.getY(), this.getZ());
+                    return ActionResult.SUCCESS;
                 }
                 return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
             } else {
@@ -44,6 +60,39 @@ public class ChestBoatEntity extends BoatEntity {
             }
         } else {
             return ActionResult.PASS;
+        }
+    }
+
+    protected void writeCustomDataToTag(CompoundTag tag) {
+        tag.putString("Block", this.getBoatType().getName());
+    }
+
+    protected void readCustomDataFromTag(CompoundTag tag) {
+        if (tag.contains("Block", 8)) {
+            this.setBoatType(BoatEntity.Type.getType(tag.getString("Block")));
+        }
+    }
+
+    @Override
+    public void updatePassengerPosition(Entity passenger) {
+        if (this.hasPassenger(passenger)) {
+            float f = 0.2F;
+            float g = (float)((this.removed ? 0.009999999776482582D : this.getMountedHeightOffset()) + passenger.getHeightOffset());
+
+            if (passenger instanceof AnimalEntity) {
+                f = (float)((double)f + 0.2D);
+            }
+
+            Vec3d vec3d = (new Vec3d((double)f, 0.0D, 0.0D)).rotateY(-this.yaw * 0.017453292F - 1.5707964F);
+            passenger.updatePosition(this.getX() + vec3d.x, this.getY() + (double)g, this.getZ() + vec3d.z);
+            passenger.yaw += ((BoatEntityAccess)instance).getYawVelocity();
+            passenger.setHeadYaw(passenger.getHeadYaw() + ((BoatEntityAccess)instance).getYawVelocity());
+            this.copyEntityData(passenger);
+            if (passenger instanceof AnimalEntity && this.getPassengerList().size() > 1) {
+                int j = passenger.getEntityId() % 2 == 0 ? 90 : 270;
+                passenger.setYaw(((AnimalEntity)passenger).bodyYaw + (float)j);
+                passenger.setHeadYaw(passenger.getHeadYaw() + (float)j);
+            }
         }
     }
 
