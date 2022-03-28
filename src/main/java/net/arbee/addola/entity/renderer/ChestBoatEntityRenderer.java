@@ -1,6 +1,8 @@
 package net.arbee.addola.entity.renderer;
 
 import net.arbee.addola.entity.vehicle.ChestBoatEntity;
+import net.minecraft.block.Blocks;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -51,6 +53,9 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
             VertexConsumer vertexConsumer2 = vertexConsumerProvider.getBuffer(RenderLayer.getWaterMask());
             this.model.getBottom().render(matrixStack, vertexConsumer2, i, OverlayTexture.DEFAULT_UV);
         }
+        matrixStack.scale(-0.9F, -0.9F, 0.9F);
+        matrixStack.translate(-0.1D, -0.15D, -0.5D);
+        MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(Blocks.CHEST.getDefaultState(), matrixStack, vertexConsumerProvider, i, 0);
 
         matrixStack.pop();
         super.render(chestBoatEntity, f, g, matrixStack, vertexConsumerProvider, i);
