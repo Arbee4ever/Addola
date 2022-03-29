@@ -1,6 +1,7 @@
 package net.arbee.addola.entity.renderer;
 
 import net.arbee.addola.entity.vehicle.ChestBoatEntity;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
@@ -12,9 +13,13 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.model.BoatEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Quaternion;
+
+import java.rmi.registry.Registry;
 
 public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
     protected final BoatEntityModel model = new BoatEntityModel();
@@ -55,6 +60,7 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
         }
         matrixStack.scale(-0.9F, -0.9F, 0.9F);
         matrixStack.translate(-0.1D, -0.15D, -0.5D);
+
         MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(Blocks.CHEST.getDefaultState(), matrixStack, vertexConsumerProvider, i, 0);
 
         matrixStack.pop();
@@ -64,5 +70,14 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
     @Override
     public Identifier getTexture(ChestBoatEntity chestBoatEntity) {
         return TEXTURES[chestBoatEntity.getBoatType().ordinal()];
+    }
+
+    protected Block readCustomDataFromTag(CompoundTag tag) {
+        if (tag.contains("Block", 8)) {
+            tag.getString("Block");
+            return Blocks.CHEST;
+        } else {
+            return Blocks.CHEST;
+        }
     }
 }

@@ -4,28 +4,33 @@ import net.arbee.addola.Addola;
 import net.arbee.addola.mixins.BoatEntityAccess;
 import net.arbee.addola.network.SpawnChestBoatEntityPacketSender;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.fluid.FluidState;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 public class ChestBoatEntity extends BoatEntity {
+    private static final TrackedData<String> BLOCK_ENTITY;
     ChestBoatEntity instance = this;
     Block block;
+
+
+    static {
+        BLOCK_ENTITY = DataTracker.registerData(ChestBoatEntity.class, TrackedDataHandlerRegistry.STRING);
+    }
 
     public ChestBoatEntity(World world, double x, double y, double z) {
         super(Addola.CHESTBOAT, world);
@@ -63,14 +68,27 @@ public class ChestBoatEntity extends BoatEntity {
         }
     }
 
+    protected void initDataTracker() {
+        this.dataTracker.startTracking(BLOCK_ENTITY, Blocks.CHEST.getName().getString());
+    }
+
     protected void writeCustomDataToTag(CompoundTag tag) {
-        tag.putString("Block", this.getBoatType().getName());
+        System.out.print(getBlockEntity());
+        tag.putString("BlockEntity", getBlockEntity());
     }
 
     protected void readCustomDataFromTag(CompoundTag tag) {
-        if (tag.contains("Block", 8)) {
-            this.setBoatType(BoatEntity.Type.getType(tag.getString("Block")));
+        if (tag.contains("BlockEntity", 8)) {
+            this.setBlockEntity(tag.getString("BlockEntity"));
         }
+    }
+
+    public void setBlockEntity(String blockEntity) {
+        this.dataTracker.set(BLOCK_ENTITY, blockEntity);
+    }
+
+    public String getBlockEntity() {
+        return this.dataTracker.get(BLOCK_ENTITY);
     }
 
     @Override
