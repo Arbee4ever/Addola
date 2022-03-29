@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ChestBoatItem extends BoatItem {
-    BoatItem instance = this;
+    ChestBoatItem instance = this;
 
     public ChestBoatItem(ChestBoatEntity.Type type, Item.Settings settings) {
         super(type, settings);
