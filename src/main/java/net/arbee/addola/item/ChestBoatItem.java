@@ -1,11 +1,12 @@
 package net.arbee.addola.item;
 
 import net.arbee.addola.entity.vehicle.ChestBoatEntity;
+import net.arbee.addola.mixins.BoatItemAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.BoatItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -17,17 +18,15 @@ import net.minecraft.world.World;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.function.Predicate;
 
-public class ChestBoatItem extends Item {
-    private static final Predicate<Entity> RIDERS;
-    private final ChestBoatEntity.Type type;
+public class ChestBoatItem extends BoatItem {
+    BoatItem instance = this;
 
     public ChestBoatItem(ChestBoatEntity.Type type, Item.Settings settings) {
-        super(settings);
-        this.type = type;
+        super(type, settings);
     }
 
+    @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         ItemStack itemStack = user.getStackInHand(hand);
         HitResult hitResult = raycast(world, user, RaycastContext.FluidHandling.ANY);
@@ -36,14 +35,14 @@ public class ChestBoatItem extends Item {
         } else {
             Vec3d vec3d = user.getRotationVec(1.0F);
             double d = 5.0D;
-            List<Entity> list = world.getOtherEntities(user, user.getBoundingBox().stretch(vec3d.multiply(5.0D)).expand(1.0D), RIDERS);
+            List<Entity> list = world.getOtherEntities(user, user.getBoundingBox().stretch(vec3d.multiply(5.0D)).expand(1.0D), ((BoatItemAccess)instance).getRIDERS());
             if (!list.isEmpty()) {
                 Vec3d vec3d2 = user.getCameraPosVec(1.0F);
                 Iterator var11 = list.iterator();
 
                 while(var11.hasNext()) {
                     Entity entity = (Entity)var11.next();
-                    Box box = entity.getBoundingBox().expand(entity.getTargetingMargin());
+                    Box box = entity.getBoundingBox().expand((double)entity.getTargetingMargin());
                     if (box.contains(vec3d2)) {
                         return TypedActionResult.pass(itemStack);
                     }
@@ -52,7 +51,9 @@ public class ChestBoatItem extends Item {
 
             if (hitResult.getType() == HitResult.Type.BLOCK) {
                 ChestBoatEntity chestBoatEntity = new ChestBoatEntity(world, hitResult.getPos().x, hitResult.getPos().y, hitResult.getPos().z);
-                chestBoatEntity.setBoatType(this.type);
+                System.out.print(instance + "\n");
+                System.out.print(((BoatItemAccess)instance).getType() + "\n");
+                chestBoatEntity.setBoatType(((BoatItemAccess)instance).getType());
                 chestBoatEntity.yaw = user.yaw;
                 if (!world.isSpaceEmpty(chestBoatEntity, chestBoatEntity.getBoundingBox().expand(-0.1D))) {
                     return TypedActionResult.fail(itemStack);
@@ -71,9 +72,5 @@ public class ChestBoatItem extends Item {
                 return TypedActionResult.pass(itemStack);
             }
         }
-    }
-
-    static {
-        RIDERS = EntityPredicates.EXCEPT_SPECTATOR.and(Entity::collides);
     }
 }
