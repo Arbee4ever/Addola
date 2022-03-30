@@ -51,8 +51,6 @@ public class ChestBoatItem extends BoatItem {
 
             if (hitResult.getType() == HitResult.Type.BLOCK) {
                 ChestBoatEntity chestBoatEntity = new ChestBoatEntity(world, hitResult.getPos().x, hitResult.getPos().y, hitResult.getPos().z);
-                System.out.print(instance + "\n");
-                System.out.print(((BoatItemAccess)instance).getType() + "\n");
                 chestBoatEntity.setBoatType(((BoatItemAccess)instance).getType());
                 chestBoatEntity.yaw = user.yaw;
                 if (!world.isSpaceEmpty(chestBoatEntity, chestBoatEntity.getBoundingBox().expand(-0.1D))) {

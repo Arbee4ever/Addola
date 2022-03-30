@@ -5,6 +5,8 @@ import net.arbee.addola.mixins.BoatEntityAccess;
 import net.arbee.addola.network.SpawnChestBoatEntityPacketSender;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ChestBlock;
+import net.minecraft.block.entity.LootableContainerBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
@@ -20,7 +22,10 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+
+import java.awt.*;
 
 public class ChestBoatEntity extends BoatEntity {
     private static final TrackedData<String> BLOCK_ENTITY;
@@ -41,23 +46,24 @@ public class ChestBoatEntity extends BoatEntity {
         prevZ = z;
     }
 
-    public ChestBoatEntity(EntityType<? extends BoatEntity> entityType, World world) {
+    public ChestBoatEntity(EntityType<? extends ChestBoatEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
-        if (player.shouldCancelInteraction()) {
-            return ActionResult.PASS;
-        } else if (((BoatEntityAccess)instance).getTicksUnderwater() < 60.0F) {
+        if (((BoatEntityAccess)instance).getTicksUnderwater() < 60.0F) {
             if (!this.world.isClient) {
                 /*block = Block.getBlockFromItem(player.getMainHandStack().getItem());
                 if(block.hasBlockEntity()) {
                     player.getMainHandStack().decrement(1);
                 }*/
-                if (player.isSneaking()) {
-                    new BoatEntity(this.world, this.getX(), this.getY(), this.getZ());
-                    return ActionResult.SUCCESS;
+                if (Registry.BLOCK.get(Registry.ITEM.getId(player.getMainHandStack().getItem())).hasBlockEntity()) {
+                    if (player.isSneaking()) {
+                        setBlockEntity(Registry.ITEM.getId(player.getMainHandStack().getItem()).toString());
+                        new BoatEntity(world, getX(), getY(), getZ());
+                        return ActionResult.SUCCESS;
+                    }
                 }
                 return player.startRiding(this) ? ActionResult.CONSUME : ActionResult.PASS;
             } else {
@@ -68,12 +74,13 @@ public class ChestBoatEntity extends BoatEntity {
         }
     }
 
+    @Override
     protected void initDataTracker() {
-        this.dataTracker.startTracking(BLOCK_ENTITY, Blocks.CHEST.getName().getString());
+        super.initDataTracker();
+        this.dataTracker.startTracking(BLOCK_ENTITY, Registry.BLOCK.getId(Blocks.CHEST).toString());
     }
 
     protected void writeCustomDataToTag(CompoundTag tag) {
-        System.out.print(getBlockEntity());
         tag.putString("BlockEntity", getBlockEntity());
     }
 
