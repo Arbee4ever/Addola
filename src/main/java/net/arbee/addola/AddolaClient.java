@@ -1,6 +1,8 @@
 package net.arbee.addola;
 
-import net.arbee.addola.entity.renderer.ChestBoatEntityRenderer;
+import net.arbee.addola.client.render.BoatItemRenderer;
+import net.arbee.addola.client.render.ChestBoatEntityRenderer;
+import net.arbee.addola.client.render.ChestBoatItemRenderer;
 import net.arbee.addola.entity.vehicle.ChestBoatEntity;
 import net.arbee.addola.network.SpawnChestBoatEntityPacketSender;
 import net.fabricmc.api.ClientModInitializer;
@@ -8,6 +10,15 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.minecraft.MinecraftVersion;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.item.BoatItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.util.UUID;
 
@@ -37,6 +48,13 @@ public class AddolaClient implements ClientModInitializer {
             client.execute(() -> client.world.addEntity(entityId, boat));
         });
 
+        BuiltinItemRendererRegistry.INSTANCE.register(Items.ACACIA_BOAT, new BoatItemRenderer());
+        BuiltinItemRendererRegistry.INSTANCE.register(Items.OAK_BOAT, new BoatItemRenderer());
+        BuiltinItemRendererRegistry.INSTANCE.register(Items.BIRCH_BOAT, new BoatItemRenderer());
+        BuiltinItemRendererRegistry.INSTANCE.register(Items.DARK_OAK_BOAT, new BoatItemRenderer());
+        BuiltinItemRendererRegistry.INSTANCE.register(Items.JUNGLE_BOAT, new BoatItemRenderer());
+        BuiltinItemRendererRegistry.INSTANCE.register(Items.SPRUCE_BOAT, new BoatItemRenderer());
+        BuiltinItemRendererRegistry.INSTANCE.register(Addola.OAK_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
         EntityRendererRegistry.INSTANCE.register(Addola.CHESTBOAT, (dispatcher, context) -> new ChestBoatEntityRenderer(dispatcher));
     }
 }

@@ -3,34 +3,37 @@ package net.arbee.addola.entity.vehicle;
 import net.arbee.addola.Addola;
 import net.arbee.addola.mixins.BoatEntityAccess;
 import net.arbee.addola.network.SpawnChestBoatEntityPacketSender;
+import net.minecraft.block.BarrelBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ChestBlock;
-import net.minecraft.block.entity.LootableContainerBlockEntity;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-import java.awt.*;
-
 public class ChestBoatEntity extends BoatEntity {
     private static final TrackedData<String> BLOCK_ENTITY;
     ChestBoatEntity instance = this;
-    Block block;
 
 
     static {
@@ -54,14 +57,18 @@ public class ChestBoatEntity extends BoatEntity {
     public ActionResult interact(PlayerEntity player, Hand hand) {
         if (((BoatEntityAccess)instance).getTicksUnderwater() < 60.0F) {
             if (!this.world.isClient) {
-                /*block = Block.getBlockFromItem(player.getMainHandStack().getItem());
-                if(block.hasBlockEntity()) {
-                    player.getMainHandStack().decrement(1);
-                }*/
-                if (Registry.BLOCK.get(Registry.ITEM.getId(player.getMainHandStack().getItem())).hasBlockEntity()) {
-                    if (player.isSneaking()) {
+                Block block = Registry.BLOCK.get(Registry.ITEM.getId(player.getMainHandStack().getItem()));
+                if (player.isSneaking()) {
+                    if (block.equals(Blocks.AIR)) {
+                        world.spawnEntity(new ItemEntity(world, getX(), getY(), getZ(), new ItemStack(Registry.ITEM.get(new Identifier(getBlockEntity())))));
+                        BoatEntity boat = new BoatEntity(world, getX(), getY(), getZ());
+                        world.spawnEntity(boat);
+                        boat.copyPositionAndRotation(this);
+                        remove();
+                    } else if (block.hasBlockEntity()) {
+                        world.spawnEntity(new ItemEntity(world, getX(), getY(), getZ(), new ItemStack(Registry.ITEM.get(new Identifier(getBlockEntity())))));
                         setBlockEntity(Registry.ITEM.getId(player.getMainHandStack().getItem()).toString());
-                        new BoatEntity(world, getX(), getY(), getZ());
+                        player.getMainHandStack().decrement(1);
                         return ActionResult.SUCCESS;
                     }
                 }
@@ -123,7 +130,7 @@ public class ChestBoatEntity extends BoatEntity {
 
     @Override
     public Item asItem() {
-        return Addola.CHESTBOAT_ITEM;
+        return Addola.OAK_CHESTBOAT_ITEM;
     }
 
     @Override

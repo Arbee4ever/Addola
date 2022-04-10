@@ -6,6 +6,7 @@
   "client": [
     "BerryMixin",
     "BoatEntityAccess",
+    "BoatEntityMixin",
     "BoatItemAccess",
     "ServerWorldMixin",
     "VillagerMixin"

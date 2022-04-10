@@ -4,6 +4,7 @@ import net.arbee.addola.entity.vehicle.ChestBoatEntity;
 import net.arbee.addola.mixins.BoatItemAccess;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.BoatItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -24,6 +25,7 @@ public class ChestBoatItem extends BoatItem {
 
     public ChestBoatItem(ChestBoatEntity.Type type, Item.Settings settings) {
         super(type, settings);
+        settings.maxCount(1);
     }
 
     @Override
@@ -70,5 +72,9 @@ public class ChestBoatItem extends BoatItem {
                 return TypedActionResult.pass(itemStack);
             }
         }
+    }
+
+    public BoatEntity.Type getBoatType() {
+        return ((BoatItemAccess)instance).getType();
     }
 }
