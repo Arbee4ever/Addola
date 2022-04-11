@@ -10,7 +10,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.registry.Registry;
 
 
 public class BoatItemRenderer implements BuiltinItemRendererRegistry.DynamicItemRenderer {

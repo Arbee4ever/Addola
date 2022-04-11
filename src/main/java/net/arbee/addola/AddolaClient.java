@@ -36,18 +36,8 @@ public class AddolaClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        BuiltinItemRendererRegistry.INSTANCE.register(Items.ACACIA_BOAT, new BoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(Items.OAK_BOAT, new BoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(Items.BIRCH_BOAT, new BoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(Items.DARK_OAK_BOAT, new BoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(Items.JUNGLE_BOAT, new BoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(Items.SPRUCE_BOAT, new BoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.OAK_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.SPRUCE_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.BIRCH_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.JUNGLE_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.ACACIA_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.DARKOAK_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
+        AddolaItems.setupItemRenderers();
+
         EntityRendererRegistry.INSTANCE.register(AddolaEntities.CHESTBOAT, (dispatcher, context) -> new ChestBoatEntityRenderer(dispatcher));
 
         receiveEntityPacket();
