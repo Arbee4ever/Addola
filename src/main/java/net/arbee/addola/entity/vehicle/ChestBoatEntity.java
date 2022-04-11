@@ -36,7 +36,6 @@ import net.minecraft.world.World;
 
 public class ChestBoatEntity extends BoatEntity {
     private static final TrackedData<String> BLOCK_ENTITY;
-    ChestBoatEntity instance = this;
 
 
     static {
@@ -58,7 +57,7 @@ public class ChestBoatEntity extends BoatEntity {
 
     @Override
     public ActionResult interact(PlayerEntity player, Hand hand) {
-        if (((BoatEntityAccess)instance).getTicksUnderwater() < 60.0F) {
+        if (((BoatEntityAccess)this).getTicksUnderwater() < 60.0F) {
             if (!this.world.isClient) {
                 Block block = Registry.BLOCK.get(Registry.ITEM.getId(player.getMainHandStack().getItem()));
                 if (player.isSneaking()) {
@@ -122,8 +121,8 @@ public class ChestBoatEntity extends BoatEntity {
 
             Vec3d vec3d = (new Vec3d((double)f, 0.0D, 0.0D)).rotateY(-this.yaw * 0.017453292F - 1.5707964F);
             passenger.updatePosition(this.getX() + vec3d.x, this.getY() + (double)g, this.getZ() + vec3d.z);
-            passenger.yaw += ((BoatEntityAccess)instance).getYawVelocity();
-            passenger.setHeadYaw(passenger.getHeadYaw() + ((BoatEntityAccess)instance).getYawVelocity());
+            passenger.yaw += ((BoatEntityAccess)this).getYawVelocity();
+            passenger.setHeadYaw(passenger.getHeadYaw() + ((BoatEntityAccess)this).getYawVelocity());
             this.copyEntityData(passenger);
             if (passenger instanceof AnimalEntity && this.getPassengerList().size() > 1) {
                 int j = passenger.getEntityId() % 2 == 0 ? 90 : 270;
