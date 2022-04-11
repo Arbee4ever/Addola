@@ -5,6 +5,8 @@ import net.arbee.addola.client.render.ChestBoatEntityRenderer;
 import net.arbee.addola.client.render.ChestBoatItemRenderer;
 import net.arbee.addola.entity.vehicle.ChestBoatEntity;
 import net.arbee.addola.network.SpawnChestBoatEntityPacketSender;
+import net.arbee.addola.registries.AddolaEntities;
+import net.arbee.addola.registries.AddolaItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -38,7 +40,7 @@ public class AddolaClient implements ClientModInitializer {
             final double zVelocity = buf.readDouble();
             final float pitch = buf.readFloat();
             final float yaw = buf.readFloat();
-            final ChestBoatEntity boat = new ChestBoatEntity(Addola.CHESTBOAT, client.world);
+            final ChestBoatEntity boat = new ChestBoatEntity(AddolaEntities.CHESTBOAT, client.world);
             boat.setEntityId(entityId);
             boat.setUuid(uuid);
             boat.setPos(x, y, z);
@@ -54,7 +56,12 @@ public class AddolaClient implements ClientModInitializer {
         BuiltinItemRendererRegistry.INSTANCE.register(Items.DARK_OAK_BOAT, new BoatItemRenderer());
         BuiltinItemRendererRegistry.INSTANCE.register(Items.JUNGLE_BOAT, new BoatItemRenderer());
         BuiltinItemRendererRegistry.INSTANCE.register(Items.SPRUCE_BOAT, new BoatItemRenderer());
-        BuiltinItemRendererRegistry.INSTANCE.register(Addola.OAK_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
-        EntityRendererRegistry.INSTANCE.register(Addola.CHESTBOAT, (dispatcher, context) -> new ChestBoatEntityRenderer(dispatcher));
+        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.OAK_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
+        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.SPRUCE_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
+        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.BIRCH_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
+        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.JUNGLE_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
+        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.ACACIA_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
+        BuiltinItemRendererRegistry.INSTANCE.register(AddolaItems.DARKOAK_CHESTBOAT_ITEM, new ChestBoatItemRenderer());
+        EntityRendererRegistry.INSTANCE.register(AddolaEntities.CHESTBOAT, (dispatcher, context) -> new ChestBoatEntityRenderer(dispatcher));
     }
 }

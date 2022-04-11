@@ -1,6 +1,6 @@
 package net.arbee.addola.entity.ai.goal;
 
-import net.arbee.addola.registries.Gamerules;
+import net.arbee.addola.registries.AddolaGamerules;
 import net.minecraft.entity.ai.TargetPredicate;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.mob.PathAwareEntity;
@@ -16,7 +16,7 @@ public class EmeraldGoal extends TemptGoal {
 
     @Override
     public boolean canStart() {
-        if (this.mob.world.getGameRules().getBoolean(Gamerules.VILLAGERS_FOLLOW)) {
+        if (this.mob.world.getGameRules().getBoolean(AddolaGamerules.VILLAGERS_FOLLOW)) {
             if (this.cooldown > 0) {
                 --this.cooldown;
                 return false;

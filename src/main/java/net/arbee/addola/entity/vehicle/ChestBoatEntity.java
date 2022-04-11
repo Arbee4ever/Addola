@@ -3,6 +3,8 @@ package net.arbee.addola.entity.vehicle;
 import net.arbee.addola.Addola;
 import net.arbee.addola.mixins.BoatEntityAccess;
 import net.arbee.addola.network.SpawnChestBoatEntityPacketSender;
+import net.arbee.addola.registries.AddolaEntities;
+import net.arbee.addola.registries.AddolaItems;
 import net.minecraft.block.BarrelBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -20,6 +22,7 @@ import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.tag.FluidTags;
@@ -41,7 +44,7 @@ public class ChestBoatEntity extends BoatEntity {
     }
 
     public ChestBoatEntity(World world, double x, double y, double z) {
-        super(Addola.CHESTBOAT, world);
+        super(AddolaEntities.CHESTBOAT, world);
         updatePosition(x, y, z);
         setVelocity(Vec3d.ZERO);
         prevX = x;
@@ -88,10 +91,12 @@ public class ChestBoatEntity extends BoatEntity {
     }
 
     protected void writeCustomDataToTag(CompoundTag tag) {
+        super.writeCustomDataToTag(tag);
         tag.putString("BlockEntity", getBlockEntity());
     }
 
     protected void readCustomDataFromTag(CompoundTag tag) {
+        super.readCustomDataFromTag(tag);
         if (tag.contains("BlockEntity", 8)) {
             this.setBlockEntity(tag.getString("BlockEntity"));
         }
@@ -130,7 +135,21 @@ public class ChestBoatEntity extends BoatEntity {
 
     @Override
     public Item asItem() {
-        return Addola.OAK_CHESTBOAT_ITEM;
+        switch(this.getBoatType()) {
+            case OAK:
+            default:
+                return AddolaItems.OAK_CHESTBOAT_ITEM;
+            case SPRUCE:
+                return AddolaItems.SPRUCE_CHESTBOAT_ITEM;
+            case BIRCH:
+                return AddolaItems.BIRCH_CHESTBOAT_ITEM;
+            case JUNGLE:
+                return AddolaItems.JUNGLE_CHESTBOAT_ITEM;
+            case ACACIA:
+                return AddolaItems.ACACIA_CHESTBOAT_ITEM;
+            case DARK_OAK:
+                return AddolaItems.DARKOAK_CHESTBOAT_ITEM;
+        }
     }
 
     @Override
