@@ -1,5 +1,6 @@
 package net.arbee.addola.registries;
 
+import net.arbee.addola.Addola;
 import net.arbee.addola.client.render.BoatItemRenderer;
 import net.arbee.addola.client.render.ChestBoatItemRenderer;
 import net.arbee.addola.item.ChestBoatItem;
@@ -20,12 +21,12 @@ public class AddolaItems {
     public static final ChestBoatItem SPRUCE_CHESTBOAT_ITEM = new ChestBoatItem(BoatEntity.Type.SPRUCE, new FabricItemSettings().group(ItemGroup.TRANSPORTATION).maxCount(1));
 
     public static void setupItems() {
-        Registry.register(Registry.ITEM, new Identifier("addola", "oak_chestboat"), OAK_CHESTBOAT_ITEM);
-        Registry.register(Registry.ITEM, new Identifier("addola", "jungle_chestboat"), JUNGLE_CHESTBOAT_ITEM);
-        Registry.register(Registry.ITEM, new Identifier("addola", "acacia_chestboat"), ACACIA_CHESTBOAT_ITEM);
-        Registry.register(Registry.ITEM, new Identifier("addola", "dark_oak_chestboat"), DARKOAK_CHESTBOAT_ITEM);
-        Registry.register(Registry.ITEM, new Identifier("addola", "birch_chestboat"), BIRCH_CHESTBOAT_ITEM);
-        Registry.register(Registry.ITEM, new Identifier("addola", "spruce_chestboat"), SPRUCE_CHESTBOAT_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(Addola.MOD_ID, "oak_chestboat"), OAK_CHESTBOAT_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(Addola.MOD_ID, "jungle_chestboat"), JUNGLE_CHESTBOAT_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(Addola.MOD_ID, "acacia_chestboat"), ACACIA_CHESTBOAT_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(Addola.MOD_ID, "dark_oak_chestboat"), DARKOAK_CHESTBOAT_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(Addola.MOD_ID, "birch_chestboat"), BIRCH_CHESTBOAT_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(Addola.MOD_ID, "spruce_chestboat"), SPRUCE_CHESTBOAT_ITEM);
     }
 
     public static void setupItemRenderers() {

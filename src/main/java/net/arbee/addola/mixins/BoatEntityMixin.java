@@ -25,7 +25,8 @@ public class BoatEntityMixin {
                 ChestBoatEntity chestBoat = new ChestBoatEntity(world, instance.getX(), instance.getY(), instance.getZ());
                 world.spawnEntity(chestBoat);
                 chestBoat.copyPositionAndRotation(instance);
-                chestBoat.setBlockEntity(Registry.ITEM.getId(player.getMainHandStack().getItem()).toString());
+                chestBoat.setContainer(Registry.ITEM.getId(player.getMainHandStack().getItem()));
+                chestBoat.setBoatType(instance.getBoatType());
                 player.getMainHandStack().decrement(1);
                 instance.remove();
                 cir.setReturnValue(ActionResult.SUCCESS);
