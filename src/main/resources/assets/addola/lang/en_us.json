@@ -29,5 +29,11 @@
 	"gamerule.berryBushSneakDamage": "Deal Berry-bush damage while sneaking",
 	"gamerule.villagersFollow":  "Villagers follow Players holding Emerald Blocks/Ore",
 	"gamerule.cureEffectsOnSleep": "Sleeping in a Bed cures any Effects.",
-	"gamerule.healOnSleep": "Sleeping in a Bed heals the player by a specific amount."
+	"gamerule.healOnSleep": "Sleeping in a Bed heals the player by a specific amount.",
+	"item.addola.oak_chestboat": "Oak Boat",
+	"item.addola.dark_oak_chestboat": "Dark Oak Boat",
+	"item.addola.acacia_chestboat": "Acacia Boat",
+	"item.addola.birch_chestboat": "Birch Boat",
+	"item.addola.jungle_chestboat": "Jungle Boat",
+	"item.addola.spruce_chestboat": "Spruce Boat"
 }

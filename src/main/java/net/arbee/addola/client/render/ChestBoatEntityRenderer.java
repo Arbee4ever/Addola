@@ -1,8 +1,7 @@
-package net.arbee.addola.entity.renderer;
+package net.arbee.addola.client.render;
 
 import net.arbee.addola.entity.vehicle.ChestBoatEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
@@ -13,13 +12,10 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.model.BoatEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
-import net.minecraft.entity.vehicle.BoatEntity;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Quaternion;
-
-import java.rmi.registry.Registry;
+import net.minecraft.util.registry.Registry;
 
 public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
     protected final BoatEntityModel model = new BoatEntityModel();
@@ -58,10 +54,12 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
             VertexConsumer vertexConsumer2 = vertexConsumerProvider.getBuffer(RenderLayer.getWaterMask());
             this.model.getBottom().render(matrixStack, vertexConsumer2, i, OverlayTexture.DEFAULT_UV);
         }
-        matrixStack.scale(-0.9F, -0.9F, 0.9F);
-        matrixStack.translate(-0.1D, -0.15D, -0.5D);
+        matrixStack.scale(-0.8F, -0.8F, 0.8F);
+        matrixStack.translate(-0.0D, -0.05D, -0.5D);
 
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(Blocks.CHEST.getDefaultState(), matrixStack, vertexConsumerProvider, i, 0);
+        BlockState blockEntity = Registry.BLOCK.get(new Identifier(chestBoatEntity.getBlockEntity())).getDefaultState();
+
+        MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(blockEntity, matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV);
 
         matrixStack.pop();
         super.render(chestBoatEntity, f, g, matrixStack, vertexConsumerProvider, i);
@@ -70,14 +68,5 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
     @Override
     public Identifier getTexture(ChestBoatEntity chestBoatEntity) {
         return TEXTURES[chestBoatEntity.getBoatType().ordinal()];
-    }
-
-    protected Block readCustomDataFromTag(CompoundTag tag) {
-        if (tag.contains("Block", 8)) {
-            tag.getString("Block");
-            return Blocks.CHEST;
-        } else {
-            return Blocks.CHEST;
-        }
     }
 }
