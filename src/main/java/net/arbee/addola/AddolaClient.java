@@ -1,13 +1,33 @@
 package net.arbee.addola;
 
-import net.arbee.addola.entity.renderer.ChestBoatEntityRenderer;
+import io.netty.buffer.Unpooled;
+import net.arbee.addola.client.render.BoatItemRenderer;
+import net.arbee.addola.client.render.ChestBoatEntityRenderer;
+import net.arbee.addola.client.render.ChestBoatItemRenderer;
 import net.arbee.addola.entity.vehicle.ChestBoatEntity;
 import net.arbee.addola.network.SpawnChestBoatEntityPacketSender;
+import net.arbee.addola.registries.AddolaEntities;
+import net.arbee.addola.registries.AddolaItems;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
+import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.MinecraftVersion;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.BoatItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 
 import java.util.UUID;
 
@@ -16,27 +36,35 @@ public class AddolaClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ClientPlayNetworking.registerGlobalReceiver(SpawnChestBoatEntityPacketSender.IDENTIFIER, (client, handler, buf, responseSender) -> {
-            final int entityId = buf.readInt();
-            final UUID uuid = buf.readUuid();
-            final double x = buf.readDouble();
-            final double y = buf.readDouble();
-            final double z = buf.readDouble();
-            final double xVelocity = buf.readDouble();
-            final double yVelocity = buf.readDouble();
-            final double zVelocity = buf.readDouble();
-            final float pitch = buf.readFloat();
-            final float yaw = buf.readFloat();
-            final ChestBoatEntity boat = new ChestBoatEntity(Addola.CHESTBOAT, client.world);
-            boat.setEntityId(entityId);
-            boat.setUuid(uuid);
-            boat.setPos(x, y, z);
-            boat.setVelocity(xVelocity, yVelocity, zVelocity);
-            boat.setYaw(yaw);
-            boat.pitch = pitch;
-            client.execute(() -> client.world.addEntity(entityId, boat));
-        });
+        AddolaItems.setupItemRenderers();
 
-        EntityRendererRegistry.INSTANCE.register(Addola.CHESTBOAT, (dispatcher, context) -> new ChestBoatEntityRenderer(dispatcher));
+        EntityRendererRegistry.INSTANCE.register(AddolaEntities.CHESTBOAT, (dispatcher, context) -> new ChestBoatEntityRenderer(dispatcher));
+
+        receiveEntityPacket();
+    }
+
+    public void receiveEntityPacket() {
+        ClientSidePacketRegistry.INSTANCE.register(SpawnChestBoatEntityPacketSender.IDENTIFIER, (ctx, byteBuf) -> {
+            EntityType<?> et = Registry.ENTITY_TYPE.get(byteBuf.readVarInt());
+            UUID uuid = byteBuf.readUuid();
+            int entityId = byteBuf.readVarInt();
+            Vec3d pos = SpawnChestBoatEntityPacketSender.PacketBufUtil.readVec3d(byteBuf);
+            float pitch = SpawnChestBoatEntityPacketSender.PacketBufUtil.readAngle(byteBuf);
+            float yaw = SpawnChestBoatEntityPacketSender.PacketBufUtil.readAngle(byteBuf);
+            ctx.getTaskQueue().execute(() -> {
+                if (MinecraftClient.getInstance().world == null)
+                    throw new IllegalStateException("Tried to spawn entity in a null world!");
+                Entity e = et.create(MinecraftClient.getInstance().world);
+                if (e == null)
+                    throw new IllegalStateException("Failed to create instance of entity \"" + Registry.ENTITY_TYPE.getId(et) + "\"!");
+                e.updateTrackedPosition(pos);
+                e.setPos(pos.x, pos.y, pos.z);
+                e.pitch = pitch;
+                e.yaw = yaw;
+                e.setEntityId(entityId);
+                e.setUuid(uuid);
+                MinecraftClient.getInstance().world.addEntity(entityId, e);
+            });
+        });
     }
 }
