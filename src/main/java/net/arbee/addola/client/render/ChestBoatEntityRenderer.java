@@ -1,6 +1,7 @@
 package net.arbee.addola.client.render;
 
 import net.arbee.addola.entity.vehicle.ChestBoatEntity;
+import net.arbee.addola.mixins.BoatEntityRendererAccess;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.OverlayTexture;
@@ -19,11 +20,10 @@ import net.minecraft.util.registry.Registry;
 
 public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
     protected final BoatEntityModel model = new BoatEntityModel();
-    private static final Identifier[] TEXTURES = new Identifier[]{new Identifier("textures/entity/boat/oak.png"), new Identifier("textures/entity/boat/spruce.png"), new Identifier("textures/entity/boat/birch.png"), new Identifier("textures/entity/boat/jungle.png"), new Identifier("textures/entity/boat/acacia.png"), new Identifier("textures/entity/boat/dark_oak.png")};
 
     public ChestBoatEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
         super(entityRenderDispatcher);
-        this.shadowRadius = 0.8F;
+        shadowRadius = 0.8F;
     }
 
     public void render(ChestBoatEntity chestBoatEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i) {
@@ -47,19 +47,19 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
 
         matrixStack.scale(-1.0F, -1.0F, 1.0F);
         matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(90.0F));
-        this.model.setAngles(chestBoatEntity, g, 0.0F, -0.1F, 0.0F, 0.0F);
-        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(this.model.getLayer(this.getTexture(chestBoatEntity)));
-        this.model.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
+        model.setAngles(chestBoatEntity, g, 0.0F, -0.1F, 0.0F, 0.0F);
+        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(model.getLayer(getTexture(chestBoatEntity)));
+        model.render(matrixStack, vertexConsumer, i, OverlayTexture.DEFAULT_UV, 1.0F, 1.0F, 1.0F, 1.0F);
         if (!chestBoatEntity.isSubmergedInWater()) {
             VertexConsumer vertexConsumer2 = vertexConsumerProvider.getBuffer(RenderLayer.getWaterMask());
-            this.model.getBottom().render(matrixStack, vertexConsumer2, i, OverlayTexture.DEFAULT_UV);
+            model.getBottom().render(matrixStack, vertexConsumer2, i, OverlayTexture.DEFAULT_UV);
         }
         matrixStack.scale(-0.8F, -0.8F, 0.8F);
-        matrixStack.translate(-0.0D, -0.05D, -0.5D);
+        matrixStack.translate(-0.0D, -0.225D, -0.5D);
 
-        BlockState blockEntity = Registry.BLOCK.get(new Identifier(chestBoatEntity.getBlockEntity())).getDefaultState();
+        BlockState container = Registry.BLOCK.get(chestBoatEntity.getContainer()).getDefaultState();
 
-        MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(blockEntity, matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV);
+        MinecraftClient.getInstance().getBlockRenderManager().renderBlockAsEntity(container, matrixStack, vertexConsumerProvider, i, OverlayTexture.DEFAULT_UV);
 
         matrixStack.pop();
         super.render(chestBoatEntity, f, g, matrixStack, vertexConsumerProvider, i);
@@ -67,6 +67,6 @@ public class ChestBoatEntityRenderer extends EntityRenderer<ChestBoatEntity> {
 
     @Override
     public Identifier getTexture(ChestBoatEntity chestBoatEntity) {
-        return TEXTURES[chestBoatEntity.getBoatType().ordinal()];
+        return BoatEntityRendererAccess.getTEXTURES()[chestBoatEntity.getBoatType().ordinal()];
     }
 }

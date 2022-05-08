@@ -1,16 +1,9 @@
 package net.arbee.addola.network;
 
 import io.netty.buffer.Unpooled;
-import net.arbee.addola.entity.vehicle.ChestBoatEntity;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.network.PacketContext;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import net.arbee.addola.Addola;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
@@ -18,25 +11,23 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 
-import java.util.UUID;
-
 public class SpawnChestBoatEntityPacketSender {
-    public static final Identifier IDENTIFIER = new Identifier("addola", "spawn_chestboat");
+    public static final Identifier IDENTIFIER = new Identifier(Addola.MOD_ID, "spawn_chestboat");
 
-    public static Packet<?> createSpawnPacket(final ChestBoatEntity boatEntity) {
-        if (boatEntity.world.isClient)
+    public static Packet<?> create(Entity e) {
+        if (e.world.isClient)
             throw new IllegalStateException("SpawnPacketUtil.create called on the logical client!");
         PacketByteBuf byteBuf = new PacketByteBuf(Unpooled.buffer());
-        byteBuf.writeVarInt(Registry.ENTITY_TYPE.getRawId(boatEntity.getType()));
-        byteBuf.writeUuid(boatEntity.getUuid());
-        byteBuf.writeVarInt(boatEntity.getEntityId());
+        byteBuf.writeVarInt(Registry.ENTITY_TYPE.getRawId(e.getType()));
+        byteBuf.writeUuid(e.getUuid());
+        byteBuf.writeVarInt(e.getEntityId());
 
-        PacketBufUtil.writeVec3d(byteBuf, boatEntity.getPos());
-        PacketBufUtil.writeAngle(byteBuf, boatEntity.pitch);
-        PacketBufUtil.writeAngle(byteBuf, boatEntity.yaw);
+        PacketBufUtil.writeVec3d(byteBuf, e.getPos());
+        PacketBufUtil.writeAngle(byteBuf, e.pitch);
+        PacketBufUtil.writeAngle(byteBuf, e.yaw);
+
         return ServerPlayNetworking.createS2CPacket(IDENTIFIER, byteBuf);
     }
-
     public static final class PacketBufUtil {
 
         /**
