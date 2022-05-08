@@ -1,18 +1,15 @@
 package net.arbee.addola.entity.vehicle;
 
-import net.arbee.addola.Addola;
 import net.arbee.addola.mixins.BoatEntityAccess;
+import net.arbee.addola.mixins.EntityAccess;
 import net.arbee.addola.network.SpawnChestBoatEntityPacketSender;
 import net.arbee.addola.registries.AddolaEntities;
 import net.arbee.addola.registries.AddolaItems;
-import net.minecraft.block.BarrelBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
@@ -26,20 +23,20 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.tag.FluidTags;
-import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
 public class ChestBoatEntity extends BoatEntity {
-    private static final TrackedData<String> BLOCK_ENTITY;
+    private static final TrackedData<String> CONTAINER;
 
 
     static {
-        BLOCK_ENTITY = DataTracker.registerData(ChestBoatEntity.class, TrackedDataHandlerRegistry.STRING);
+        CONTAINER = DataTracker.registerData(ChestBoatEntity.class, TrackedDataHandlerRegistry.STRING);
     }
 
     public ChestBoatEntity(World world, double x, double y, double z) {
@@ -59,17 +56,19 @@ public class ChestBoatEntity extends BoatEntity {
     public ActionResult interact(PlayerEntity player, Hand hand) {
         if (((BoatEntityAccess)this).getTicksUnderwater() < 60.0F) {
             if (!this.world.isClient) {
-                Block block = Registry.BLOCK.get(Registry.ITEM.getId(player.getMainHandStack().getItem()));
+                Identifier item = Registry.ITEM.getId(player.getMainHandStack().getItem());
                 if (player.isSneaking()) {
-                    if (block.equals(Blocks.AIR)) {
-                        world.spawnEntity(new ItemEntity(world, getX(), getY(), getZ(), new ItemStack(Registry.ITEM.get(new Identifier(getBlockEntity())))));
+                    if (item.equals(Registry.ITEM.getId(Items.AIR))) {
+                        world.spawnEntity(new ItemEntity(world, getX(), getY() + 0.6D, getZ(), new ItemStack(Registry.ITEM.get(getContainer()))));
                         BoatEntity boat = new BoatEntity(world, getX(), getY(), getZ());
+                        boat.setBoatType(getBoatType());
                         world.spawnEntity(boat);
                         boat.copyPositionAndRotation(this);
+                        boat.pitch = 60.0F;
                         remove();
-                    } else if (block.hasBlockEntity()) {
-                        world.spawnEntity(new ItemEntity(world, getX(), getY(), getZ(), new ItemStack(Registry.ITEM.get(new Identifier(getBlockEntity())))));
-                        setBlockEntity(Registry.ITEM.getId(player.getMainHandStack().getItem()).toString());
+                    } else if (Registry.BLOCK.get(Registry.ITEM.getId(player.getMainHandStack().getItem())).getDefaultState() instanceof Inventory) {
+                        world.spawnEntity(new ItemEntity(world, getX(), getY() + 0.6D, getZ(), new ItemStack(Registry.ITEM.get(getContainer()))));
+                        setContainer(Registry.ITEM.getId(player.getMainHandStack().getItem()));
                         player.getMainHandStack().decrement(1);
                         return ActionResult.SUCCESS;
                     }
@@ -84,29 +83,61 @@ public class ChestBoatEntity extends BoatEntity {
     }
 
     @Override
+    public boolean damage(DamageSource source, float amount) {
+        if (this.isInvulnerableTo(source)) {
+            return false;
+        } else if (!this.world.isClient && !this.removed) {
+            this.setDamageWobbleSide(-this.getDamageWobbleSide());
+            this.setDamageWobbleTicks(10);
+            this.setDamageWobbleStrength(this.getDamageWobbleStrength() + amount * 10.0F);
+            this.scheduleVelocityUpdate();
+            boolean bl = source.getAttacker() instanceof PlayerEntity && ((PlayerEntity)source.getAttacker()).abilities.creativeMode;
+            if (bl || this.getDamageWobbleStrength() > 40.0F) {
+                if (!bl && this.world.getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+                    ItemStack itemStack = new ItemStack(this.asItem());
+                    CompoundTag compoundTag = new CompoundTag();
+                    compoundTag.putString("Container", this.getContainer().toString());
+                    if (!compoundTag.isEmpty()) {
+                        itemStack.putSubTag("EntityTag", compoundTag);
+                    }
+                    ItemEntity itemEntity = new ItemEntity(world, ((EntityAccess)this).getPos().getX() + 0.5D, ((EntityAccess)this).getPos().getY() + 0.5D, ((EntityAccess)this).getPos().getZ() + 0.5D, itemStack);
+                    itemEntity.setToDefaultPickupDelay();
+                    world.spawnEntity(itemEntity);
+                }
+
+                this.remove();
+            }
+
+            return true;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
     protected void initDataTracker() {
         super.initDataTracker();
-        this.dataTracker.startTracking(BLOCK_ENTITY, Registry.BLOCK.getId(Blocks.CHEST).toString());
+        this.dataTracker.startTracking(CONTAINER, Registry.BLOCK.getId(Blocks.CHEST).toString());
     }
 
     protected void writeCustomDataToTag(CompoundTag tag) {
         super.writeCustomDataToTag(tag);
-        tag.putString("BlockEntity", getBlockEntity());
+        tag.putString("Container", getContainer().toString());
     }
 
     protected void readCustomDataFromTag(CompoundTag tag) {
         super.readCustomDataFromTag(tag);
-        if (tag.contains("BlockEntity", 8)) {
-            this.setBlockEntity(tag.getString("BlockEntity"));
+        if (tag.contains("Container", 8)) {
+            this.setContainer(new Identifier(tag.getString("Container")));
         }
     }
 
-    public void setBlockEntity(String blockEntity) {
-        this.dataTracker.set(BLOCK_ENTITY, blockEntity);
+    public void setContainer(Identifier container) {
+        this.dataTracker.set(CONTAINER, container.toString());
     }
 
-    public String getBlockEntity() {
-        return this.dataTracker.get(BLOCK_ENTITY);
+    public Identifier getContainer() {
+        return new Identifier(this.dataTracker.get(CONTAINER));
     }
 
     @Override
@@ -119,7 +150,7 @@ public class ChestBoatEntity extends BoatEntity {
                 f = (float)((double)f + 0.2D);
             }
 
-            Vec3d vec3d = (new Vec3d((double)f, 0.0D, 0.0D)).rotateY(-this.yaw * 0.017453292F - 1.5707964F);
+            Vec3d vec3d = (new Vec3d(f, 0.0D, 0.0D)).rotateY(-this.yaw * 0.017453292F - 1.5707964F);
             passenger.updatePosition(this.getX() + vec3d.x, this.getY() + (double)g, this.getZ() + vec3d.z);
             passenger.yaw += ((BoatEntityAccess)this).getYawVelocity();
             passenger.setHeadYaw(passenger.getHeadYaw() + ((BoatEntityAccess)this).getYawVelocity());
@@ -158,6 +189,6 @@ public class ChestBoatEntity extends BoatEntity {
 
     @Override
     public Packet<?> createSpawnPacket() {
-        return SpawnChestBoatEntityPacketSender.createSpawnPacket(this);
+        return SpawnChestBoatEntityPacketSender.create(this);
     }
 }
