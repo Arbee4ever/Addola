@@ -8,6 +8,8 @@
     "BoatEntityAccess",
     "BoatEntityMixin",
     "BoatItemAccess",
+    "EntityRendererMixin",
+    "LivingEntityRendererMixin",
     "ServerWorldMixin",
     "VillagerMixin"
   ],
