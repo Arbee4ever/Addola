@@ -4,7 +4,7 @@ import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.world.GameRules;
 
-public class AddolaGamerules {
+public class Gamerules {
     public static GameRules.Key<GameRules.BooleanRule> BERRYBUSH_SNEAK_DAMAGE;
     public static GameRules.Key<GameRules.BooleanRule> VILLAGERS_FOLLOW;
     public static GameRules.Key<GameRules.IntRule> HEAL_ON_SLEEP;
